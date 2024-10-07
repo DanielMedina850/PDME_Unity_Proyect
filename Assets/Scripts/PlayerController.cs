@@ -13,8 +13,12 @@ public class PlayerController : MonoBehaviour
 {
 
     private Animator animator;
-    Transform transform;
     public float speed;
+
+    public float moveDrag = 1f;
+    public float stopDrag = 25f;
+    
+    private Rigidbody2D rb;
 
     private SpriteRenderer sp;
 
@@ -22,7 +26,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        transform = GetComponent<Transform>();
+        rb = GetComponent<Rigidbody2D>();
         sp = GetComponent<SpriteRenderer>();
         
     }
@@ -46,15 +50,14 @@ public class PlayerController : MonoBehaviour
        animator.SetFloat("Horizontal", movimientoHorizontal);
        animator.SetFloat("Vertical", movimientoVertical);
        animator.SetFloat("Speed", 1);
+        rb.drag = moveDrag;
 
-
-       Vector2 direction = transform.position;
-       direction.x = direction.x + Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-       direction.y = direction.y + Input.GetAxis("Vertical") * speed * Time.deltaTime;
-        transform.position = direction;
+      rb.AddForce(Vector2.right * movimientoHorizontal * Time.deltaTime);
+      rb.AddForce(Vector2.up * movimientoVertical * Time.deltaTime);
 
       }else {
         animator.SetFloat("Speed", 0);
+        rb.drag = stopDrag;
       }
 
     }
