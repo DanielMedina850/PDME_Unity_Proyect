@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public float speed;
 
     public float moveDrag = 1f;
-    public float stopDrag = 25f;
+    public float stopDrag = 40f;
     
     private Rigidbody2D rb;
 
