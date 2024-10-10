@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using Unity.VisualScripting;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
@@ -13,10 +14,12 @@ public class PlayerController : MonoBehaviour
 {
 
     private Animator animator;
-    public float speed;
+    public float speed = 10f;
+    public float acceleration = 2;
 
-    public float moveDrag = 1f;
-    public float stopDrag = 40f;
+    public float moveDrag = 2f;
+
+    public float maxSpeed = 3f;
     
     private Rigidbody2D rb;
 
@@ -28,6 +31,8 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         sp = GetComponent<SpriteRenderer>();
+
+         rb.drag = moveDrag;
         
     }
 
@@ -35,6 +40,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
       float movimientoHorizontal =  Input.GetAxisRaw("Horizontal");
+      float movimientoVertical =  Input.GetAxisRaw("Vertical");
       
         if(movimientoHorizontal >= 0) {
             managementOrientation(false);
@@ -42,24 +48,35 @@ public class PlayerController : MonoBehaviour
             managementOrientation(true);
         }
 
-
-
-      float movimientoVertical =  Input.GetAxisRaw("Vertical");
+      
 
       if(movimientoHorizontal != 0 || movimientoVertical != 0){
        animator.SetFloat("Horizontal", movimientoHorizontal);
        animator.SetFloat("Vertical", movimientoVertical);
        animator.SetFloat("Speed", 1);
-        rb.drag = moveDrag;
-
-      rb.AddForce(Vector2.right * movimientoHorizontal * Time.deltaTime);
-      rb.AddForce(Vector2.up * movimientoVertical * Time.deltaTime);
+      
 
       }else {
         animator.SetFloat("Speed", 0);
-        rb.drag = stopDrag;
       }
 
+    }
+
+
+        void FixedUpdate()
+    {
+        // Obtener input del usuario
+        float movimientoHorizontal = Input.GetAxisRaw("Horizontal");
+        float movimientoVertical = Input.GetAxisRaw("Vertical");
+
+        // Crear un vector de movimiento
+        Vector2 movimiento = new Vector2(movimientoHorizontal, movimientoVertical).normalized;
+
+        // Aplicar fuerza para movimiento con aceleración
+        rb.AddForce(movimiento * acceleration);
+
+        // Limitar la velocidad máxima del personaje
+        rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
     }
 
 
