@@ -1,13 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
-using Unity.VisualScripting;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 
 public class PlayerController : MonoBehaviour
@@ -24,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
 
     private SpriteRenderer sp;
+    public new Camera camera;
 
     // Start is called before the first frame update
     void Start()
@@ -42,17 +39,17 @@ public class PlayerController : MonoBehaviour
       float movimientoHorizontal =  Input.GetAxisRaw("Horizontal");
       float movimientoVertical =  Input.GetAxisRaw("Vertical");
       
-        if(movimientoHorizontal >= 0) {
-            managementOrientation(false);
-        }else {
-            managementOrientation(true);
-        }
+        // if(movimientoHorizontal >= 0) {
+        //     managementOrientation(false);
+        // }else {
+        //     managementOrientation(true);
+        // }
+
+        managementOrientation();
 
       
 
       if(movimientoHorizontal != 0 || movimientoVertical != 0){
-       animator.SetFloat("Horizontal", movimientoHorizontal);
-       animator.SetFloat("Vertical", movimientoVertical);
        animator.SetFloat("Speed", 1);
       
 
@@ -80,11 +77,34 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void managementOrientation(Boolean movimiento){
-        if(movimiento){
-            sp.flipX = true;
+    void managementOrientation(){
+        // if(movimiento){
+        //     sp.flipX = true;
+        // }else {
+        //     sp.flipX = false;
+        // }
+
+        
+        float angle = GetAngleTowardsMouse();
+        
+        if(angle >= 90 && angle <= 270){
+        sp.flipX = true;
+        sp.sortingOrder = 0;
         }else {
             sp.flipX = false;
+            sp.sortingOrder = 1;
         }
+    }
+
+    private float GetAngleTowardsMouse() {
+
+        Vector3 mousePosition = camera.ScreenToWorldPoint(Input.mousePosition);
+
+        Vector3 mouseDirection = mousePosition - transform.position;
+        mouseDirection.z = 0;
+
+        float angle = (Vector3.SignedAngle(Vector3.right, mouseDirection, Vector3.forward) + 360) % 360;
+
+        return angle;
     }
 }
