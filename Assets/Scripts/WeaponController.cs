@@ -12,6 +12,9 @@ public class WeaponController : MonoBehaviour
 
     public new Camera camera;
 
+    public GameObject bulletPrefab;
+    public Transform spawner;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +25,7 @@ public class WeaponController : MonoBehaviour
     void Update()
     {
         rotateWeapon();
+        CheckFiring();
     }
 
 
@@ -48,5 +52,14 @@ public class WeaponController : MonoBehaviour
         float angle = (Vector3.SignedAngle(Vector3.right, mouseDirection, Vector3.forward) + 360) % 360;
 
         return angle;
+    }
+
+    private void CheckFiring() {
+        if(Input.GetMouseButtonDown(0)){
+            GameObject bullet = Instantiate(bulletPrefab);
+            bullet.transform.position = spawner.position;
+            bullet.transform.rotation = transform.rotation;
+            Destroy(bullet, 2f);
+        }
     }
 }
