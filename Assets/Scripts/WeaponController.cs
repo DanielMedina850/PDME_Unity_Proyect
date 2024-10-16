@@ -33,7 +33,7 @@ public class WeaponController : MonoBehaviour
         spriteRenderer.flipY = true;
         spriteRenderer.sortingOrder = 1;
         }else {
-            spriteRenderer.flipY = false;
+            spriteRenderer.flipY = false;   
             spriteRenderer.sortingOrder = 0;
         }
     }
