@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
-
+using UnityEngine.Rendering;
 using Vector3 = UnityEngine.Vector3;
 
 public class WeaponController : MonoBehaviour
@@ -16,6 +16,8 @@ public class WeaponController : MonoBehaviour
     public Transform spawner;
 
      private Boolean canShoot = true;
+
+     public float delayShoting = 0.250F;
     
     void Update()
     {
@@ -55,7 +57,7 @@ public class WeaponController : MonoBehaviour
 
       IEnumerator ShootDelay()
   {
-    yield return new WaitForSeconds(0.250F);
+    yield return new WaitForSeconds(delayShoting);
     canShoot = true;
   }
 }

@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 using Vector2 = UnityEngine.Vector2;
@@ -12,7 +14,7 @@ public class PlayerController : MonoBehaviour
 {
 
     private Animator animator;
-    public float speed = 10f;
+
     public float acceleration = 2;
 
     public float moveDrag = 2f;
@@ -26,6 +28,16 @@ public class PlayerController : MonoBehaviour
 
 
     private  Vector3 mousePosition;
+    private  Vector3 mouseDirection;
+    private Vector2 movimiento;
+
+    private float dashTime = 0.2f;  // Un dash más corto
+    public float dashForce = 900;  // Aumentar la fuerza del dash
+
+    private float timeCanDash = 1f;
+    private bool isDashing = false;
+    private bool canDash = true;
+
 
 
     // Start is called before the first frame update
@@ -52,24 +64,34 @@ public class PlayerController : MonoBehaviour
         }else {
                 animator.SetFloat("Speed", 0);
         } 
+
+        if (Input.GetMouseButtonDown(1) && canDash) {
+            Debug.Log("Iniciando Dash");
+             StartCoroutine(Dash());
+        }
     }
 
 
         void FixedUpdate()
     {
-        // if(isRolling){return;}
+         if(!isDashing){
         // Obtener input del usuario
         float movimientoHorizontal = Input.GetAxisRaw("Horizontal");
         float movimientoVertical = Input.GetAxisRaw("Vertical");
 
+
         // Crear un vector de movimiento
-        Vector2 movimiento = new Vector2(movimientoHorizontal, movimientoVertical).normalized;
+        movimiento = new Vector2(movimientoHorizontal, movimientoVertical).normalized;
 
         // Aplicar fuerza para movimiento con aceleración
-        rb.AddForce(movimiento * acceleration);
+        // rb.AddForce(movimiento * acceleration);
+        rb.velocity = new Vector2(movimiento.x * 350, movimiento.y * 350);
+
 
         // Limitar la velocidad máxima del personaje
-        rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+        // rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+        
+         }
     }
 
 
@@ -91,13 +113,28 @@ public class PlayerController : MonoBehaviour
 
         mousePosition = camera.ScreenToWorldPoint(Input.mousePosition);
 
-        Vector3 mouseDirection = mousePosition - transform.position;
+        mouseDirection = mousePosition - transform.position;
         mouseDirection.z = 0;
 
         float angle = (Vector3.SignedAngle(Vector3.right, mouseDirection, Vector3.forward) + 360) % 360;
 
         return angle;
     }
+
+
+    private IEnumerator Dash() {
+
+        
+        isDashing = true;
+        canDash = false;
+        Debug.Log(movimiento);
+        rb.velocity = new Vector2(movimiento.x * dashForce, movimiento.y * dashForce);
+        yield return new WaitForSeconds(dashTime);
+        isDashing = false;
+        yield return new WaitForSeconds(timeCanDash);
+        canDash = true;
+    }
+
 
 
 

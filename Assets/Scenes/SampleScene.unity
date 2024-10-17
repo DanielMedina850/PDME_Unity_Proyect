@@ -1167,6 +1167,7 @@ MonoBehaviour:
   camera: {fileID: 519420031}
   bulletPrefab: {fileID: 7574574122710287387, guid: d36a55f9ca1062e47aeba2491b2af700, type: 3}
   spawner: {fileID: 308017061}
+  delayShoting: 0.2
 --- !u!1 &1755141857
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,7 +1314,7 @@ GameObject:
   - component: {fileID: 1988689259}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1420,14 +1421,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30d7115632197424eb23cf02a90e338a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
   acceleration: 2
   moveDrag: 2
   maxSpeed: 3
   camera: {fileID: 519420031}
-  slidingSpeed: 10
-  slidingDuration: 1
-  slidingCooldown: 1
+  dashForce: 900
 --- !u!50 &1988689258
 Rigidbody2D:
   serializedVersion: 4
