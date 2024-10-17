@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
@@ -22,6 +24,10 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer sp;
     public new Camera camera;
 
+
+    private  Vector3 mousePosition;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,38 +36,28 @@ public class PlayerController : MonoBehaviour
         sp = GetComponent<SpriteRenderer>();
 
          rb.drag = moveDrag;
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-      float movimientoHorizontal =  Input.GetAxisRaw("Horizontal");
-      float movimientoVertical =  Input.GetAxisRaw("Vertical");
-      
-        // if(movimientoHorizontal >= 0) {
-        //     managementOrientation(false);
-        // }else {
-        //     managementOrientation(true);
-        // }
+
+        float movimientoHorizontal =  Input.GetAxisRaw("Horizontal");
+        float movimientoVertical =  Input.GetAxisRaw("Vertical");
 
         managementOrientation();
 
-      
-
-      if(movimientoHorizontal != 0 || movimientoVertical != 0){
-       animator.SetFloat("Speed", 1);
-      
-
-      }else {
-        animator.SetFloat("Speed", 0);
-      }
-
+        if(movimientoHorizontal != 0 || movimientoVertical != 0){
+                animator.SetFloat("Speed", 1);
+        }else {
+                animator.SetFloat("Speed", 0);
+        } 
     }
 
 
         void FixedUpdate()
     {
+        // if(isRolling){return;}
         // Obtener input del usuario
         float movimientoHorizontal = Input.GetAxisRaw("Horizontal");
         float movimientoVertical = Input.GetAxisRaw("Vertical");
@@ -78,13 +74,7 @@ public class PlayerController : MonoBehaviour
 
 
     void managementOrientation(){
-        // if(movimiento){
-        //     sp.flipX = true;
-        // }else {
-        //     sp.flipX = false;
-        // }
 
-        
         float angle = GetAngleTowardsMouse();
         
         if(angle >= 90 && angle <= 270){
@@ -94,11 +84,12 @@ public class PlayerController : MonoBehaviour
             sp.flipX = false;
             sp.sortingOrder = 1;
         }
+
     }
 
     private float GetAngleTowardsMouse() {
 
-        Vector3 mousePosition = camera.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition = camera.ScreenToWorldPoint(Input.mousePosition);
 
         Vector3 mouseDirection = mousePosition - transform.position;
         mouseDirection.z = 0;
@@ -107,4 +98,8 @@ public class PlayerController : MonoBehaviour
 
         return angle;
     }
+
+
+
+
 }

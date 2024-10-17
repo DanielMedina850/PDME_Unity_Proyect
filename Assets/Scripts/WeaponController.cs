@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -13,6 +14,8 @@ public class WeaponController : MonoBehaviour
 
     public GameObject bulletPrefab;
     public Transform spawner;
+
+     private Boolean canShoot = true;
     
     void Update()
     {
@@ -39,11 +42,20 @@ public class WeaponController : MonoBehaviour
     }
 
     private void CheckFiring() {
-        if(Input.GetMouseButtonDown(0)){
+        if(Input.GetMouseButtonDown(0) && canShoot == true){
             GameObject bullet = Instantiate(bulletPrefab);
             bullet.transform.position = spawner.position;
             bullet.transform.rotation = transform.rotation;
+            canShoot = false;
             Destroy(bullet, 2f);
+            StartCoroutine(ShootDelay());
         }
     }
+
+
+      IEnumerator ShootDelay()
+  {
+    yield return new WaitForSeconds(0.250F);
+    canShoot = true;
+  }
 }

@@ -22,11 +22,10 @@ public class rotateWeapon : MonoBehaviour
     void gestionarSprite(){
         Vector3 currentEuler = transform.rotation.eulerAngles;
         float angle = currentEuler.z;
-        Debug.Log(angle);
 
         /* Gestiono el posicionamiento de capas con el arma */
         if(angle >= 0 && angle <= 180){
-            spriteRenderer.sortingOrder = 0;
+            spriteRenderer.sortingOrder = -1;
         }else {
             spriteRenderer.sortingOrder = 1;
         }
