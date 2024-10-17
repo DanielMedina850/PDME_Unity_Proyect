@@ -936,7 +936,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1503959884}
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1427085508
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,7 +1312,7 @@ GameObject:
   - component: {fileID: 1988689257}
   - component: {fileID: 1988689259}
   m_Layer: 0
-  m_Name: player
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

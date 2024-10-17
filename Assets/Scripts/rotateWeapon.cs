@@ -6,7 +6,7 @@ public class rotateWeapon : MonoBehaviour
 {
 
     public Transform    target;
-    public SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer;
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();  
