@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     public float moveDrag = 2f;
 
     public float maxSpeed = 3f;
+
+    public ParticleSystem particulas;
     
     private Rigidbody2D rb;
 
@@ -54,6 +56,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
+        if(!isDashing){
+        particulas.Pause();
+        Debug.Log("Apagado update");
+        }
+
         float movimientoHorizontal =  Input.GetAxisRaw("Horizontal");
         float movimientoVertical =  Input.GetAxisRaw("Vertical");
 
@@ -67,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1) && canDash) {
             Debug.Log("Iniciando Dash");
-             StartCoroutine(Dash());
+            StartCoroutine(Dash());   
         }
     }
 
@@ -129,8 +136,11 @@ public class PlayerController : MonoBehaviour
         canDash = false;
         Debug.Log(movimiento);
         rb.velocity = new Vector2(movimiento.x * dashForce, movimiento.y * dashForce);
+        particulas.Play();
         yield return new WaitForSeconds(dashTime);
         isDashing = false;
+        particulas.Clear();
+        particulas.Pause();
         yield return new WaitForSeconds(timeCanDash);
         canDash = true;
     }
