@@ -17,7 +17,7 @@ public class WeaponController : MonoBehaviour
 
      private Boolean canShoot = true;
 
-     public float delayShoting = 0.250F;
+     public float delayShoting = 0.180F;
     
     void Update()
     {
