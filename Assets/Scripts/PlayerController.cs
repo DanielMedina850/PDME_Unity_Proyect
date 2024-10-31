@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     private float timeCanDash = 1f;
     private bool isDashing = false;
     private bool canDash = true;
+    private bool canMove = true;
 
 
 
@@ -56,9 +57,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        if(!isDashing){
+        if(!isDashing && canMove){
         particulas.Pause();
-        Debug.Log("Apagado update");
         }
 
         float movimientoHorizontal =  Input.GetAxisRaw("Horizontal");
@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
 
         void FixedUpdate()
     {
-         if(!isDashing){
+         if(!isDashing && canMove){
         // Obtener input del usuario
         float movimientoHorizontal = Input.GetAxisRaw("Horizontal");
         float movimientoVertical = Input.GetAxisRaw("Vertical");
@@ -134,7 +134,6 @@ public class PlayerController : MonoBehaviour
         
         isDashing = true;
         canDash = false;
-        Debug.Log(movimiento);
         rb.velocity = new Vector2(movimiento.x * dashForce, movimiento.y * dashForce);
         particulas.Play();
         yield return new WaitForSeconds(dashTime);
@@ -143,6 +142,16 @@ public class PlayerController : MonoBehaviour
         particulas.Pause();
         yield return new WaitForSeconds(timeCanDash);
         canDash = true;
+    }
+
+    public void DesactivarMovimiento(float duration){
+        StartCoroutine(DisableMovementCoroutine(duration));
+    }
+
+    private IEnumerator DisableMovementCoroutine(float duration){
+        canMove = false;
+        yield return new WaitForSeconds(duration);
+        canMove = true;
     }
 
 

@@ -16,8 +16,10 @@ public class BulletController : MonoBehaviour
     }
 
 
-    void OnTriggerEnter2D(Collider2D collision) {
-        if(!collision.gameObject.CompareTag("Player"))
+
+
+    void OnCollisionEnter2D(Collision2D other){
+        if(!other.gameObject.CompareTag("Player"))
         Destroy(gameObject);
     }
 
