@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -11,7 +12,7 @@ public class EnemyController : MonoBehaviour
     private float knockbackForce = 0.02f;
     private float knockbackDuration = 0.5f;
 
-    private final float life = 10;
+    private int vidaEnemigo = 3;
 
 
 
@@ -66,8 +67,17 @@ public class EnemyController : MonoBehaviour
 
 
         if(other.gameObject.CompareTag("Bullet")){
-        Destroy(gameObject);
+            this.vidaEnemigo--;
+            if(this.vidaEnemigo <= 0){
+                Destroy(gameObject);
+            }
         }
     }
+
+    public void quitarVida(){
+        vidaEnemigo--;
+    }
+
+    public int quitarVidaEnemigo{get { return this.vidaEnemigo; }}
 
 }
