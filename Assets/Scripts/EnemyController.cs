@@ -62,6 +62,8 @@ public class EnemyController : MonoBehaviour
 
             PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
             playerController.DesactivarMovimiento(knockbackDuration);
+            GameManager.instance.quitarVidaJugador();
+            GameManager.instance.comprobarVidaJugador();
 
         }
 
