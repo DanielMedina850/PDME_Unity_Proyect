@@ -640,7 +640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -663,7 +663,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -988,8 +988,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -152, y: 79}
-  m_SizeDelta: {x: 67.1567, y: 67.1567}
+  m_AnchoredPosition: {x: -289, y: 147}
+  m_SizeDelta: {x: 133.7674, y: 133.7674}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &810015946
 MonoBehaviour:
@@ -1078,6 +1078,8 @@ MonoBehaviour:
   VidaMitad: {fileID: 129538200, guid: e43dafce76303f54dac18aac8b9775a2, type: 3}
   VidaMediaVacia: {fileID: -796644638, guid: e43dafce76303f54dac18aac8b9775a2, type: 3}
   VidaVacia: {fileID: -1966591314, guid: e43dafce76303f54dac18aac8b9775a2, type: 3}
+  animator: {fileID: 1988689256}
+  player: {fileID: 0}
 --- !u!1 &1310913467
 GameObject:
   m_ObjectHideFlags: 0
@@ -6452,7 +6454,7 @@ GameObject:
   - component: {fileID: 1988689257}
   - component: {fileID: 1988689259}
   m_Layer: 0
-  m_Name: Player
+  m_Name: -- Player --
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6567,7 +6569,6 @@ MonoBehaviour:
   particulas: {fileID: 1885054637}
   camera: {fileID: 519420031}
   dashForce: 900
-  gameManager: {fileID: 0}
 --- !u!50 &1988689258
 Rigidbody2D:
   serializedVersion: 4
@@ -6651,6 +6652,6 @@ SceneRoots:
   - {fileID: 700786844}
   - {fileID: 1755141860}
   - {fileID: 550402892}
-  - {fileID: 636772604}
   - {fileID: 1728816788}
   - {fileID: 851391885}
+  - {fileID: 636772604}

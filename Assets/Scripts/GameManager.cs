@@ -10,11 +10,14 @@ public class GameManager : MonoBehaviour
     private int VIDAS_JUGADOR = 5;
     private int vidaJugador;
     public Image barraDeVidas;
+    private bool isDeath = false;
 
     public Sprite VidaMediaLlena;
     public Sprite VidaMitad;
     public Sprite VidaMediaVacia;
     public Sprite VidaVacia;
+    public Animator animator;
+    public GameObject player;
 
     public static GameManager instance;
 
@@ -37,9 +40,11 @@ public class GameManager : MonoBehaviour
     }
 
     public int getVidasJugador { get {return VIDAS_JUGADOR;}}
+    public bool playerIsDeath { get {return isDeath;}}
 
 
     public void quitarVidaJugador(){
+        if(!isDeath) 
         vidaJugador--;
     }
 
@@ -61,10 +66,17 @@ public class GameManager : MonoBehaviour
     }
 
     public void comprobarVidaJugador(){
-        Debug.Log("hola");
         actualizarBarraVida();
-        if(vidaJugador <= 0){
-            Debug.Log("Game Over");
+        if(vidaJugador <= 0 && !isDeath){
+            isDeath = true;
+            StartCoroutine(animationDeath());
         }
     }
+
+
+    IEnumerator animationDeath(){
+        animator.SetBool("isDeath", true);
+        yield return new WaitForSeconds(0.01f);
+        animator.SetBool("isDeath", false);
+    } 
 }

@@ -42,8 +42,6 @@ public class PlayerController : MonoBehaviour
     private bool canMove = true;
 
 
-    public GameManager gameManager;
-
 
 
     // Start is called before the first frame update
@@ -59,6 +57,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if(GameManager.instance.playerIsDeath){
+            canMove = false;
+        }
 
         if(!isDashing && canMove){
         particulas.Pause();
@@ -76,7 +78,6 @@ public class PlayerController : MonoBehaviour
         } 
 
         if (Input.GetMouseButtonDown(1) && canDash) {
-            Debug.Log("Iniciando Dash");
             StartCoroutine(Dash());   
         }
     }
@@ -156,9 +157,6 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(duration);
         canMove = true;
     }
-
-
-
 
 
 }

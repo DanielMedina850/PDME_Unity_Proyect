@@ -29,16 +29,7 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distance = Vector2.Distance(transform.position, player.transform.position);
-        Vector2 direction = player.transform.position - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x);
-        gestionarGiro(direction);
-
-        
-        
-        
-        transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime);
-        transform.rotation = Quaternion.Euler(Vector3.forward * angle);
+        movimientoEnemigo();
     }
 
     void gestionarGiro(Vector2 direction){
@@ -51,7 +42,7 @@ public class EnemyController : MonoBehaviour
 
     
     void OnCollisionEnter2D(Collision2D other){
-        if(other.gameObject.CompareTag("Player")){
+        if(other.gameObject.CompareTag("Player") && !GameManager.instance.playerIsDeath){
             Rigidbody2D playerRb = other.gameObject.GetComponent<Rigidbody2D>();
 
             Vector2 collisionNormal = other.contacts[0].normal;
@@ -78,6 +69,22 @@ public class EnemyController : MonoBehaviour
 
     public void quitarVida(){
         vidaEnemigo--;
+    }
+    
+    private void movimientoEnemigo(){
+        if(!GameManager.instance.playerIsDeath){
+        distance = Vector2.Distance(transform.position, player.transform.position);
+        Vector2 direction = player.transform.position - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x);
+        gestionarGiro(direction);
+
+        
+        
+        
+        transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime);
+        transform.rotation = Quaternion.Euler(Vector3.forward * angle);
+        }
+
     }
 
     public int quitarVidaEnemigo{get { return this.vidaEnemigo; }}
