@@ -8,6 +8,7 @@ public class BulletController : MonoBehaviour
 
     public float speed = 3;
     private Rigidbody2D rb;
+    public int damage = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -19,12 +20,18 @@ public class BulletController : MonoBehaviour
 
 
     void OnCollisionEnter2D(Collision2D other){
-        if(!other.gameObject.CompareTag("Player"))
+        if(!other.gameObject.CompareTag("Player")){
         Destroy(gameObject);
+        }
     }
 
 
     void FixedUpdate(){
         rb.MovePosition(transform.position + transform.right * speed * Time.fixedDeltaTime);
+    }
+
+        public void IncreaseDamage(int amount)
+    {
+        damage = amount;
     }
 }

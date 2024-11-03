@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
-using UnityEngine.Rendering;
 using Vector3 = UnityEngine.Vector3;
 
 public class WeaponController : MonoBehaviour
@@ -17,13 +14,26 @@ public class WeaponController : MonoBehaviour
 
      private Boolean canShoot = true;
 
+     public int bulletDamage = 1;
+
      public float delayShoting = 0.180F;
+     private int originalBulletDamage;
+
     
+
+    void Start()
+    {
+        originalBulletDamage = bulletDamage; 
+    }
+
     void Update()
     {
+        if(!GameManager.instance.gamePause){
         rotateWeapon();
         CheckFiring();
+        }
     }
+
 
 
     private void rotateWeapon(){
@@ -46,6 +56,9 @@ public class WeaponController : MonoBehaviour
     private void CheckFiring() {
         if(Input.GetMouseButtonDown(0) && canShoot == true){
             GameObject bullet = Instantiate(bulletPrefab);
+
+            bullet.GetComponent<BulletController>().IncreaseDamage(bulletDamage);
+            
             bullet.transform.position = spawner.position;
             bullet.transform.rotation = transform.rotation;
             canShoot = false;
@@ -55,9 +68,21 @@ public class WeaponController : MonoBehaviour
     }
 
 
+
       IEnumerator ShootDelay()
   {
+
     yield return new WaitForSeconds(delayShoting);
     canShoot = true;
   }
+
+      public void IncreaseBulletDamage(int amount)
+    {
+        bulletDamage += amount; // Método para aumentar el daño de la bala
+    }
+
+        public void ResetBulletDamage()
+    {
+        bulletDamage = originalBulletDamage; 
+    }
 }

@@ -11,8 +11,9 @@ public class EnemyController : MonoBehaviour
     public float speed;
     private float knockbackForce = 0.02f;
     private float knockbackDuration = 0.5f;
+    public int vidaEnemigo = 3;
 
-    private int vidaEnemigo = 3;
+    public bool moreDamage = false;
 
 
 
@@ -26,7 +27,7 @@ public class EnemyController : MonoBehaviour
         sp = GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         movimientoEnemigo();
@@ -60,9 +61,14 @@ public class EnemyController : MonoBehaviour
 
 
         if(other.gameObject.CompareTag("Bullet")){
-            this.vidaEnemigo--;
-            if(this.vidaEnemigo <= 0){
+            
+            BulletController damageBullet = other.gameObject.GetComponent<BulletController>();
+
+            Debug.Log("enemy: " + damageBullet.damage);
+            vidaEnemigo-=damageBullet.damage;
+            if(vidaEnemigo <= 0){
                 Destroy(gameObject);
+                GameManager.instance.incrementarCantidadEnemigos();
             }
         }
     }
@@ -76,6 +82,7 @@ public class EnemyController : MonoBehaviour
         distance = Vector2.Distance(transform.position, player.transform.position);
         Vector2 direction = player.transform.position - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x);
+        
         gestionarGiro(direction);
 
         
@@ -83,6 +90,8 @@ public class EnemyController : MonoBehaviour
         
         transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime);
         transform.rotation = Quaternion.Euler(Vector3.forward * angle);
+
+        
         }
 
     }
