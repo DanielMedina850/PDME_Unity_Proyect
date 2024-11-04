@@ -9,11 +9,14 @@ public class GameManager : MonoBehaviour
 {
 
     private int VIDAS_JUGADOR = 5;
-    private int ENEMIGOS_ELIMINADOS = 3;
+    private int ENEMIGOS_ELIMINADOS_lvl1 = 3;
+    private int ENEMIGOS_ELIMINADOS_lvl2 = 3;
     private int cantidadEnemigos;
     private int vidaJugador;
     public Image barraDeVidas;
     private bool isDeath = false;
+
+    private bool lvlSuperado = false;
 
     public Sprite VidaLlena;
     public Sprite VidaMediaLlena;
@@ -21,6 +24,7 @@ public class GameManager : MonoBehaviour
     public Sprite VidaMediaVacia;
     public Sprite VidaVacia;
     public Animator animator;
+
     public GameObject powerPotionIcon;
 
 
@@ -28,6 +32,7 @@ public class GameManager : MonoBehaviour
     public bool activePowerPotion = false;
 
     public static GameManager instance;
+
 
     private void Awake()
     {
@@ -48,6 +53,7 @@ public class GameManager : MonoBehaviour
     }
 
     void Update(){
+        gameOver();
         changePowerPotionIcon();
         nivelSuperado();
     }
@@ -101,21 +107,40 @@ public class GameManager : MonoBehaviour
     } 
 
     private void changePowerPotionIcon(){
-        if(activePowerPotion){
-            powerPotionIcon.SetActive(true);
-        }else{
-            powerPotionIcon.SetActive(false);
+        if(powerPotionIcon != null){
+            if(activePowerPotion){
+                powerPotionIcon.SetActive(true);
+            }else{
+                powerPotionIcon.SetActive(false);
+            }
         }
     }
 
     public void nivelSuperado(){
-        if(cantidadEnemigos == ENEMIGOS_ELIMINADOS){
+        if(cantidadEnemigos == ENEMIGOS_ELIMINADOS_lvl1 && !lvlSuperado){
             SceneManager.LoadScene("Level_2");
+            cantidadEnemigos = 0;
+            lvlSuperado = true;
+        }else if( cantidadEnemigos == ENEMIGOS_ELIMINADOS_lvl2 && lvlSuperado){
+            SceneManager.LoadScene("Winner");
         }
     }
+
     
     public void incrementarCantidadEnemigos(){
         cantidadEnemigos++;
+    }
+
+    private void gameOver(){
+        if(vidaJugador <= 0){
+            StartCoroutine(delayDeathAnimation());
+        }
+    }
+
+    IEnumerator delayDeathAnimation(){
+        yield return new WaitForSeconds(0.6f);
+        SceneManager.LoadScene("Game_over");
+        vidaJugador = VIDAS_JUGADOR;
     }
 
 

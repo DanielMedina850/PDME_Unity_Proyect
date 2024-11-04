@@ -10,6 +10,13 @@ public class CandecyPotion : MonoBehaviour
 
     private bool potionCollect = false;
 
+        private AudioSource aS;
+
+
+    void Start(){
+        aS = GetComponent<AudioSource>();
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         
@@ -20,6 +27,7 @@ public class CandecyPotion : MonoBehaviour
             GameManager.instance.activePowerPotion = true;
             if (weaponController != null && !potionCollect)
             {
+                aS.Play();
                 potionCollect = true;
                 weaponController.IncreaseBulletDamage(damageIncrease); 
                 StartCoroutine(RemoveDamageBoost(weaponController)); 

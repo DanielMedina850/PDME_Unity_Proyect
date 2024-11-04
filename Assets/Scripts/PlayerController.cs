@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
     private bool isDashing = false;
     private bool canDash = true;
     private bool canMove = true;
+    private AudioSource aS;
+
 
 
 
@@ -44,6 +46,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        aS = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         sp = GetComponent<SpriteRenderer>();
@@ -128,7 +131,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Dash() {
 
-        
+        aS.Play();
         isDashing = true;
         canDash = false;
         rb.velocity = new Vector2(movimiento.x * dashForce, movimiento.y * dashForce);

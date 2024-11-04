@@ -15,6 +15,8 @@ public class EnemyController : MonoBehaviour
 
     public bool moreDamage = false;
 
+    public AudioSource aS;
+
 
 
     private float distance;
@@ -25,6 +27,8 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         sp = GetComponent<SpriteRenderer>();
+        aS = GetComponent<AudioSource>();
+
     }
 
 
@@ -51,6 +55,7 @@ public class EnemyController : MonoBehaviour
             Vector2 knockbackDirection =- collisionNormal;
 
             playerRb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+            aS.Play();
 
             PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
             playerController.DesactivarMovimiento(knockbackDuration);
