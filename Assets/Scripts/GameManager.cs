@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
 {
 
     private int VIDAS_JUGADOR = 5;
-    private int ENEMIGOS_ELIMINADOS_lvl1 = 3;
-    private int ENEMIGOS_ELIMINADOS_lvl2 = 3;
+    private int ENEMIGOS_ELIMINADOS_lvl1 = 30;
+    private int ENEMIGOS_ELIMINADOS_lvl2 = 60;
     private int cantidadEnemigos;
     private int vidaJugador;
     public Image barraDeVidas;
